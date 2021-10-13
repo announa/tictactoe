@@ -1,0 +1,49 @@
+*{
+ margin: 0;
+ box-sizing: border-box;
+}
+
+body{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ height: 100vh;
+}
+
+/* --------------  TABLE  --------------- */
+
+table{
+ width: 33.33vw;
+ height: 33.33vw;
+ border-collapse: collapse;
+}
+
+td{
+ width: 33.33%;
+ height: 33.33%;
+ border: 3px solid #666666;
+ position: relative;
+}
+
+td:first-child{
+ border-left: none;
+}
+td:last-child{
+ border-right: none;
+}
+tr:first-child td{
+ border-top: none;
+}
+tr:last-child td{
+ border-bottom: none;
+}
+
+/* --------------  SHAPES  ---------------- */
+
+.shape{
+ width: 70%;
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+}
