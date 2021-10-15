@@ -5,7 +5,7 @@
 }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
   background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.3) 0%, transparent 30%),
     linear-gradient(to right, rgb(42, 57, 73), rgb(40, 114, 136));
   /* background: linear-gradient(to right, rgb(42, 62, 73), rgb(40, 114, 136)); */
@@ -41,9 +41,10 @@ body {
 /* --------------  TABLE  --------------- */
 
 table {
-  width: 33.33vw;
-  height: 33.33vw;
+  width: 400px;
+  height: 400px;
   border-collapse: collapse;
+  transition: all 225ms ease-in-out;
 }
 
 td {
@@ -81,14 +82,15 @@ tr:last-child td {
 /* ---------------  BOARD  ---------------- */
 
 .board {
-  padding: 5% 10%;
+  padding: 50px 70px;
   background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.5) 10% , rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.2) 23%,  rgba(255, 255, 255, 0.3) 27%, transparent 32%), rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   position: relative;
   box-shadow: inset -5px -5px 5px rgba(0, 0, 0,0.15), inset 5px 5px 5px rgba(255, 255, 255,0.5);
+  transition: all 225ms ease-in-out;
 }
 
-.winning-line{
+.winner-line{
   width: 275%;
   height: 12px;
   background: linear-gradient(to right, rgba(70, 140, 161, 0.6), rgba(0, 150, 196, .9));
@@ -100,21 +102,24 @@ tr:last-child td {
   transition: width 225ms ease-in-out;
 }
 
-.winning-line-0{
+.winner-line-0{
   width: 0% !important;
 }
 
 /* -----------------  PLAYER-PANEL  --------------  */
 
 .player{
-  padding: 10px;
-  margin-left: 20px;
+  margin-left: 50px;
   text-shadow: 1px 1px 1px rgba(66, 46, 46, 0.4);
-  font-size: 1.5rem;
+  font-size: 1.7rem;
+ }
+
+ .player:first-child{
+   padding-bottom: 30px;
  }
  
  .player-shape{
-   width: calc(0.15 * 33.33vw);
+   width: 50px;
    margin-right: 1.2rem;
    filter: opacity(80%) drop-shadow(1px 1px 2px rgba(66, 46, 46, 0.7));
   }
@@ -184,4 +189,68 @@ button{
 button:hover{
   background: rgba(0, 109, 143, 1);
   box-shadow: 2px 2px 4px rgba(0, 109, 143, .7);
+}
+
+/* -----------------  MEDIA QUERY  ------------------ */
+
+@media (max-width: 800px){
+.board{
+  height: 90vh;
+  max-height: 600px;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 40px;
+}
+
+table{
+  width: 300px;
+  height: 300px;
+}
+
+.player-panel{
+  width: 100%;
+  margin-top: 30px;
+display: flex;
+justify-content: space-between;
+}
+
+.player-shape{
+  width: 35px;
+}
+
+.player{
+  margin-left: 0;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+.player:first-child{
+  padding-bottom: 0;
+}
+}
+
+@media (max-width: 500px){
+table{
+  width: 60vw;
+  height: 60vw;
+}
+
+.board{
+  max-height: unset;
+  height: unset;
+  margin: 20px 0;
+}
+
+.player-panel{
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.player{
+  padding: 10px;
+}
+
+.player:first-child{
+  padding-bottom: 10px;
+}
 }
