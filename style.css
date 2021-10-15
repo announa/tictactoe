@@ -122,6 +122,7 @@ tr:last-child td {
    width: 50px;
    margin-right: 1.2rem;
    filter: opacity(80%) drop-shadow(1px 1px 2px rgba(66, 46, 46, 0.7));
+   transition: all 225ms ease-in-out;
   }
 
 /* ---------------  SHADOW  ---------------- */
@@ -193,7 +194,21 @@ button:hover{
 
 /* -----------------  MEDIA QUERY  ------------------ */
 
-@media (max-width: 800px){
+@media (max-height: 500px){
+table{
+  width: 80vh;
+  height: 80vh;
+}
+
+.board{
+  padding: 20px 50px;
+}
+
+.player-shape{
+  width: 40px;
+}
+}
+@media (max-width: 800px) and (min-height: 500px){
 .board{
   height: 90vh;
   max-height: 600px;
