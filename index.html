@@ -4,29 +4,92 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
     <script src="script.js"></script>
     <title>Tic Tac Toe</title>
   </head>
-  <body>
-   <div class="board">
-   <table>
-    <tr>
-     <td><img class="shape circle d-none" src="./img/circle.svg"><img class="shape cross d-none" src="./img/cross.svg"></td>
-     <td><img class="shape circle d-none" src="./img/circle.svg"><img class="shape cross d-none" src="./img/cross.svg"></td>
-     <td><img class="shape circle d-none" src="./img/circle.svg"><img class="shape cross d-none" src="./img/cross.svg"></td>
-    </tr>
-    <tr>
-     <td><img class="shape circle d-none" src="./img/circle.svg"><img class="shape cross d-none" src="./img/cross.svg"></td>
-     <td><img class="shape circle d-none" src="./img/circle.svg"><img class="shape cross d-none" src="./img/cross.svg"></td>
-     <td><img class="shape circle d-none" src="./img/circle.svg"><img class="shape cross d-none" src="./img/cross.svg"></td>
-    </tr>
-    <tr>
-     <td><img class="shape circle d-none" src="./img/circle.svg"><img class="shape cross d-none" src="./img/cross.svg"></td>
-     <td><img class="shape circle d-none" src="./img/circle.svg"><img class="shape cross d-none" src="./img/cross.svg"></td>
-     <td><img class="shape circle d-none" src="./img/circle.svg"><img class="shape cross d-none" src="./img/cross.svg"></td>
-    </tr>
-   </table>
-  </div>
+  <body class="flex-center">
+    <div class="board flex-center">
+      <table class="table">
+        
+        <tr>
+          <td class="hover" onclick="selectField(0)">
+            <div class="winning-line winning-line-0" id="winning-line"></div>
+
+            <img class="shape circle d-none" src="./img/circle.svg" /><img
+              class="shape cross d-none"
+              src="./img/cross.svg"
+            />
+          </td>
+          <td class="hover" onclick="selectField(1)">
+            <img class="shape circle d-none" src="./img/circle.svg" /><img
+              class="shape cross d-none"
+              src="./img/cross.svg"
+            />
+          </td>
+          <td class="hover" onclick="selectField(2)">
+            <img class="shape circle d-none" src="./img/circle.svg" /><img
+              class="shape cross d-none"
+              src="./img/cross.svg"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="hover" onclick="selectField(3)">
+
+            <img class="shape circle d-none" src="./img/circle.svg" /><img
+              class="shape cross d-none"
+              src="./img/cross.svg"
+            />
+          </td>
+          <td class="hover" onclick="selectField(4)">
+
+            <img class="shape circle d-none" src="./img/circle.svg" /><img
+              class="shape cross d-none"
+              src="./img/cross.svg"
+            />
+          </td>
+          <td class="hover" onclick="selectField(5)">
+            <img class="shape circle d-none" src="./img/circle.svg" /><img
+              class="shape cross d-none"
+              src="./img/cross.svg"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="hover" onclick="selectField(6)">
+            <img class="shape circle d-none" src="./img/circle.svg" /><img
+              class="shape cross d-none"
+              src="./img/cross.svg"
+            />
+          </td>
+          <td class="hover" onclick="selectField(7)">
+            <img class="shape circle d-none" src="./img/circle.svg" /><img
+              class="shape cross d-none"
+              src="./img/cross.svg"
+            />
+          </td>
+          <td class="hover" onclick="selectField(8)">
+            <img class="shape circle d-none" src="./img/circle.svg" /><img
+              class="shape cross d-none"
+              src="./img/cross.svg"
+            />
+          </td>
+        </tr>
+      </table>
+      <div class="player-panel">
+        <div class="player flex-center" id="player-1"><img class="player-shape" src="./img/cross.svg" />Player 1</div>
+        <div class="player flex-center inactive" id="player-2"><img class="player-shape" src="./img/circle.svg" /> Player 2</div>
+      </div>
+    </div>
+    <div class="winner-modal flex-center minimize" id="show-winner">
+      <div class="show-winner flex-center">
+        <div><a id="winner"></a> wins !!</div>
+        <button class="hover" onclick="replay()">Replay</button>
+      </div>
+    </div>
   </body>
 </html>
