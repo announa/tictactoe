@@ -1,4 +1,4 @@
-let selectedField = [];
+let selectedFields = [];
 let circle = document.getElementsByClassName('circle');
 let cross = document.getElementsByClassName('cross');
 let fields = document.getElementsByTagName('td');
@@ -18,11 +18,12 @@ let winningCombinations = [
 let checkIfWinner;
 
 function selectField(id) {
-  if (!selectedField[id]) {
-    selectedField[id] = currentPlayer;
+  if (!selectedFields[id]) {
+    selectedFields[id] = currentPlayer;
     doMove(id);
     changePlayerPanel();
     checkForWin();
+    checkIfGameOver();
     changeCurrentPlayer();
   }
 }
@@ -55,10 +56,11 @@ function changePlayerPanel() {
 function checkForWin() {
   if (hasFullRow() > -1) {
     let indexOfWinningCombination = hasFullRow();
-    winningCombinations[indexOfWinningCombination].forEach((number) => {
-      highlightFields(number);
-    });
     renderWinningLine(indexOfWinningCombination);
+    /* gameOver(); */
+    setTimeout(() => {
+      gameOver('win');
+    }, 400);
   }
 }
 
@@ -101,7 +103,6 @@ function renderWinningLine(index){
     line.style.width = '350%';
     line.style.transform = 'rotate(-45deg)';
   }
-  
 }
 
 function changeCurrentPlayer() {
@@ -111,15 +112,33 @@ function changeCurrentPlayer() {
     currentPlayer = 'cross';
   }
 }
-function showWinner(winner) {
-  document.getElementById('winner').innerHTML = winner;
-  document.getElementById('show-winner').classList.remove('minimize');
+
+function gameOver(status) {
+  document.getElementById('game-over').classList.remove('minimize');
+  if(status === 'win'){
+  document.getElementById('game-over-text').innerHTML = `${currentPlayer} wins!`;
+} else{
+  document.getElementById('game-over-text').innerHTML = `Game Over!`;
+  }
+}
+
+function checkIfGameOver(){
+  if(selectedFields.length == 9){
+    gameOver('nowin');
+  }
 }
 
 function replay() {
-  selectedField.splice(0, 9);
-  document.getElementById('show-winner').classList.add('minimize');
+  document.getElementById('winning-line').classList.add('winning-line-0');
+  document.getElementById('game-over').classList.add('minimize');
+  resetVariables();
   resetFields();
+}
+
+function resetVariables(){
+  selectedFields = [];
+  fieldsPlayer1 = [];
+  fieldsPlayer2 = [];
   currentPlayer = 'cross';
 }
 
@@ -140,29 +159,29 @@ function resetFields() {
 
 /* function hasFullRow() {
   let winner;
-  if (selectedField[0] == selectedField[1] && selectedField[1] == selectedField[2] && selectedField[0]) {
-    winner = selectedField[0];
+  if (selectedFields[0] == selectedFields[1] && selectedFields[1] == selectedFields[2] && selectedFields[0]) {
+    winner = selectedFields[0];
   }
-  if (selectedField[3] == selectedField[4] && selectedField[4] == selectedField[5] && selectedField[3]) {
-    winner = selectedField[3];
+  if (selectedFields[3] == selectedFields[4] && selectedFields[4] == selectedFields[5] && selectedFields[3]) {
+    winner = selectedFields[3];
   }
-  if (selectedField[6] == selectedField[7] && selectedField[7] == selectedField[8] && selectedField[6]) {
-    winner = selectedField[6];
+  if (selectedFields[6] == selectedFields[7] && selectedFields[7] == selectedFields[8] && selectedFields[6]) {
+    winner = selectedFields[6];
   }
-  if (selectedField[0] == selectedField[3] && selectedField[3] == selectedField[6] && selectedField[0]) {
-    winner = selectedField[0];
+  if (selectedFields[0] == selectedFields[3] && selectedFields[3] == selectedFields[6] && selectedFields[0]) {
+    winner = selectedFields[0];
   }
-  if (selectedField[1] == selectedField[4] && selectedField[4] == selectedField[7] && selectedField[1]) {
-    winner = selectedField[1];
+  if (selectedFields[1] == selectedFields[4] && selectedFields[4] == selectedFields[7] && selectedFields[1]) {
+    winner = selectedFields[1];
   }
-  if (selectedField[2] == selectedField[5] && selectedField[5] == selectedField[8] && selectedField[2]) {
-    winner = selectedField[2];
+  if (selectedFields[2] == selectedFields[5] && selectedFields[5] == selectedFields[8] && selectedFields[2]) {
+    winner = selectedFields[2];
   }
-  if (selectedField[0] == selectedField[4] && selectedField[4] == selectedField[8] && selectedField[0]) {
-    winner = selectedField[0];
+  if (selectedFields[0] == selectedFields[4] && selectedFields[4] == selectedFields[8] && selectedFields[0]) {
+    winner = selectedFields[0];
   }
-  if (selectedField[2] == selectedField[4] && selectedField[4] == selectedField[6] && selectedField[2]) {
-    winner = selectedField[2];
+  if (selectedFields[2] == selectedFields[4] && selectedFields[4] == selectedFields[6] && selectedFields[2]) {
+    winner = selectedFields[2];
   }
 
   if (winner) {

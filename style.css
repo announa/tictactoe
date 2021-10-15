@@ -6,9 +6,9 @@
 
 body {
   height: 100vh;
-  /* background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.4) 0%, transparent 30%),
-    linear-gradient(to right, rgb(42, 57, 73), rgb(46, 78, 109)); */
-  background: linear-gradient(to right, rgb(42, 57, 73), rgb(46, 78, 109));
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.3) 0%, transparent 30%),
+    linear-gradient(to right, rgb(42, 57, 73), rgb(40, 114, 136));
+  /* background: linear-gradient(to right, rgb(42, 62, 73), rgb(40, 114, 136)); */
 }
 
 .flex-center{
@@ -75,38 +75,24 @@ tr:last-child td {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.player-shape{
- width: calc(0.15 * 33.33vw);
- margin-right: 10px;
+  filter: opacity(80%) drop-shadow(1px 1px 2px rgba(66, 46, 46, 0.7));
 }
 
 /* ---------------  BOARD  ---------------- */
 
 .board {
-  width: 60vw;
-  height: 40vw;
-  /* background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), transparent 30%), rgba(255, 255, 255, 0.6); */
+  padding: 5% 10%;
   background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.5) 10% , rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.2) 23%,  rgba(255, 255, 255, 0.3) 27%, transparent 32%), rgba(255, 255, 255, 0.6);
-
-  border-radius: 20px;
+  border-radius: 10px;
   position: relative;
-  box-shadow: inset -10px -10px 10px 0 rgba(0, 0, 0,0.15), inset 10px 10px 10px 0px rgba(255, 255, 255,0.5);
+  box-shadow: inset -5px -5px 5px rgba(0, 0, 0,0.15), inset 5px 5px 5px rgba(255, 255, 255,0.5);
 }
 
-.player{
- padding: 10px;
- margin-left: 20px;
-}
-
-.line-parent{
-  position: relative;
-}
 .winning-line{
   width: 275%;
-  height: 10px;
-  background: linear-gradient(to right, rgba(108, 0, 141, 0.4), rgba(108, 0, 141, 0.6) );
+  height: 12px;
+  background: linear-gradient(to right, rgba(70, 140, 161, 0.6), rgba(0, 150, 196, .9));
+  box-shadow: 0 0 5px 0px rgba(0, 109, 143, 0.8);
   border-radius: 5px;
   position: absolute;
   z-index: 1;
@@ -118,6 +104,20 @@ tr:last-child td {
   width: 0% !important;
 }
 
+/* -----------------  PLAYER-PANEL  --------------  */
+
+.player{
+  padding: 10px;
+  margin-left: 20px;
+  text-shadow: 1px 1px 1px rgba(66, 46, 46, 0.4);
+  font-size: 1.5rem;
+ }
+ 
+ .player-shape{
+   width: calc(0.15 * 33.33vw);
+   margin-right: 1.2rem;
+   filter: opacity(80%) drop-shadow(1px 1px 2px rgba(66, 46, 46, 0.7));
+  }
 
 /* ---------------  SHADOW  ---------------- */
 
@@ -129,26 +129,28 @@ tr:last-child td {
 
 .board::after {
   content: '';
-  width: inherit;
-  height: inherit;
-  display: block;
-  background: linear-gradient( to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, .1));
+  width: 80%;
+  height: 100%;
+  background: linear-gradient( to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
   position: absolute;
-  border-radius: 20px;
-  bottom: -90px;
-  left: 150px;
-  transform: skewX(-70deg) perspective(15rem) rotateX(70deg) scale(-60%);
+  border-radius: 30px;
+  right: 0;
+  bottom: 7%;
+  transform-origin: 120% 100%;
+  transform: perspective(200px) rotateX(60deg);
   filter: blur(2rem);
   z-index: -1;
 }
 
-.winner-modal{
+/* ----------------  WINNER MODAL  ------------------ */
+.game-over-modal{
  width: 100%;
  height: 100%;
 background: rgba(0, 0, 0, 0.3);
  position: absolute;
  z-index: 1;
  transition: all 225ms ease-in-out;
+
 }
 
 .show-winner{
@@ -157,16 +159,29 @@ background: rgba(0, 0, 0, 0.3);
  min-height: 100px;
  font-size: 2rem;
  background: rgba(230, 230, 230, 1);
- border-radius: 20px;
+ border-radius: 10px;
  box-shadow: 0 0 5px 2px rgba(230, 230, 230, .5);
  padding: 20px 40px;
+ background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.5) 10% , rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.2) 23%,  rgba(255, 255, 255, 0.3) 27%, transparent 32%), rgba(214, 214, 214, .95);
+ box-shadow: inset -2px -2px 2px rgba(0, 0, 0,0.15), inset 2px 2px 2px rgba(255, 255, 255,0.5);
+
 }
 
 button{
  margin-top: 20px;
  margin-bottom: 10px;
- background: rgb(255, 255, 255);
+ background: rgba(0, 109, 143, .8);
+ box-shadow: 2px 2px 4px rgba(0, 109, 143, .5);
  border: none;
- border-radius: 5px;
- padding: 5px 10px;
+ border-radius: 20px;
+ padding: .5rem 1rem;
+ color: white;
+ cursor: pointer;
+ letter-spacing: .5px;
+ font-size: 1rem;
+}
+
+button:hover{
+  background: rgba(0, 109, 143, 1);
+  box-shadow: 2px 2px 4px rgba(0, 109, 143, .7);
 }
