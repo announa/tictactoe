@@ -1,12 +1,9 @@
 let currentPlayer = 'Player 1';
-let selectedFields = [];
-let fieldsPlayer1 = [];
-let fieldsPlayer2 = [];
+let selectedFields = { occupiedBy: [], fields: document.getElementsByTagName('td') };
+let fieldsPlayer1 = { fieldNumbers: [], crossShapes: document.getElementsByClassName('cross') };
+let fieldsPlayer2 = { fieldNumbers: [], circleShapes: document.getElementsByClassName('circle') };
 let counter = 0;
-let circle = document.getElementsByClassName('circle');
-let cross = document.getElementsByClassName('cross');
-let fields = document.getElementsByTagName('td');
-let checkIfWinner = ['', []];
+let checkIfWinner = { gameOver: false, name: '', fieldNumbers: [] };
 let winningCombinations = [
   [0, 1, 2],
   [3, 4, 5],
@@ -18,82 +15,106 @@ let winningCombinations = [
   [2, 4, 6],
 ];
 
+/**
+ * Onclick-event. Executed when player selects a field.
+ * @param {number} - The field number.
+ */
 function selectField(id) {
-  if (!selectedFields[id]) {
+  if (!selectedFields['occupiedBy'][id] && !checkIfWinner['gameOver']) {
     setVariables(id);
     renderFieldSelection(id);
-    checkForWin();
-    changeCurrentPlayer();
+    checkIfWinner['gameOver'] = checkForWin();
+    if (!checkIfWinner['gameOver']) {
+      changeCurrentPlayer();
+    }
   }
 }
 
 function setVariables(id) {
-  selectedFields[id] = currentPlayer;
+  selectedFields['occupiedBy'][id] = currentPlayer;
   counter++;
   if (currentPlayer == 'Player 1') {
-    fieldsPlayer1.push(id);
-    checkIfWinner[0] = currentPlayer;
-    checkIfWinner[1] = fieldsPlayer1;
+    fieldsPlayer1['fieldNumbers'].push(id);
+    checkIfWinner['name'] = currentPlayer;
+    checkIfWinner['fieldNumbers'] = fieldsPlayer1['fieldNumbers'];
   } else {
-    fieldsPlayer2.push(id);
-    checkIfWinner[0] = currentPlayer;
-    checkIfWinner[1] = fieldsPlayer2;
+    fieldsPlayer2['fieldNumbers'].push(id);
+    checkIfWinner['name'] = currentPlayer;
+    checkIfWinner['fieldNumbers'] = fieldsPlayer2['fieldNumbers'];
   }
 }
 
-/* renders the current players field selection and sets the checkIfWinner-variable for later checkForWin */
+/**
+ * Renders the current players field selection.
+ * @param {number} - The field number.
+ */
 function renderFieldSelection(id) {
-  fields[id].classList.remove('hover');
   if (currentPlayer == 'Player 1') {
-    cross[id].classList.remove('d-none');
+    fieldsPlayer1['crossShapes'][id].classList.remove('d-none');
   } else {
-    circle[id].classList.remove('d-none');
+    fieldsPlayer2['circleShapes'][id].classList.remove('d-none');
   }
+  selectedFields['fields'][id].classList.remove('hover');
 }
 
 function checkForWin() {
-  if (hasFullRow() > -1) {
-    let indexOfWinningCombination = hasFullRow();
-    renderWinnerLine(indexOfWinningCombination);
-    /* gameOver(); */
+  if (indexOfFullRow() > -1) {
+    renderWinnerLine(indexOfFullRow());
     setTimeout(() => {
-      gameOver('win');
+      gameOver('win'); //shows game over-modal with winner
     }, 400);
+    return true;
   } else {
-    checkIfGameOver();
+    return checkIfGameOver();
   }
 }
 
-/* checks if the current player has a full row ( = winningCombination)
- ** returns the index of the winning combination in the variable winningCombination */
-function hasFullRow() {
-  let indexOfWinningCombination = winningCombinations.findIndex((combination) => playerHasFullCombination(combination));
-  return indexOfWinningCombination;
+/**
+ * Checks if current player has full row ( = winningCombination).
+ * @return {number} - The index of the winning combination in the variable winningCombination
+ */
+function indexOfFullRow() {
+  return winningCombinations.findIndex((combination) => playerHasCombination(combination));
 }
 
-/* checks if the selected fields of the current player ( = checkIfWinner) contain all the numbers of the winningCombination
- ** returns true or false */
-function playerHasFullCombination(combination) {
-  return combination.every((number) => checkIfWinner[1].includes(number));
+/**
+ * Checks if selected fields of current player contain all numbers of the winning combination that is beeing checked
+ * @param {array} - The winning combination that is beeing checked.
+ * @return {boolean}
+ * */
+function playerHasCombination(combination) {
+  return combination.every((number) => checkIfWinner['fieldNumbers'].includes(number));
 }
 
+/**
+ * Checks if game over because all fields are occupied.
+ * @return {boolean}
+ */
 function checkIfGameOver() {
   if (counter == 9) {
     gameOver('nowin');
+    return true;
+  } else {
+    return false;
   }
 }
 
+/**
+ * shows game over-modal
+ * @param {string} - The winning-status ('win' or 'nowin')
+ */
 function gameOver(status) {
   document.getElementById('game-over').classList.remove('minimize');
   if (status === 'win') {
-    document.getElementById('game-over-text').innerHTML = `${checkIfWinner[0]} wins!`;
+    document.getElementById('game-over-text').innerHTML = `${checkIfWinner['name']} wins!`;
   } else {
     document.getElementById('game-over-text').innerHTML = `Game Over!`;
   }
 }
 
-
-/* changes the current player and shows the current player on the boards player panel */
+/**
+ * Changes the current player and shows the current player on the boards player-panel
+ */
 function changeCurrentPlayer() {
   if (currentPlayer == 'Player 1') {
     currentPlayer = 'Player 2';
@@ -114,85 +135,48 @@ function restart() {
 }
 
 function resetVariables() {
-  selectedFields = [];
-  fieldsPlayer1 = [];
-  fieldsPlayer2 = [];
+  selectedFields['occupiedBy'] = [];
+  fieldsPlayer1['fieldNumbers'] = [];
+  fieldsPlayer2['fieldNumbers'] = [];
   currentPlayer = 'Player 1';
   counter = 0;
+  checkIfWinner['gameOver'] = false;
 }
 
 function resetBoard() {
   for (i = 0; i < 9; i++) {
-    circle[i].classList.add('d-none');
-    cross[i].classList.add('d-none');
-    fields[i].classList.add('hover');
+    fieldsPlayer1['crossShapes'][i].classList.add('d-none');
+    fieldsPlayer2['circleShapes'][i].classList.add('d-none');
+    selectedFields['fields'][i].classList.add('hover');
   }
   document.getElementById('player-1').classList.remove('inactive');
   document.getElementById('player-2').classList.add('inactive');
 }
 
+/**
+ * Renders the line drawn when a player wins.
+ * @param {number} - The index of the winning combination in varable winningCombinations
+ */
 function renderWinnerLine(index) {
-  let line = document.getElementById('winner-line');
-  line.classList.remove('winner-line-0');
   if (index <= 2) {
-    line.style.top = 'calc(50% + ((100% + 2px) *' + index + '))';
-    line.style.left = 'calc(12.5% + 3px)';
-    line.style.transform = 'translateY(-50%)';
+    drawLine('275%', 'calc(50% + ((100% + 2px) *' + index + '))', 'calc(12.5% + 3px)', -50, 0);
   }
   if (index >= 3 && index <= 5) {
-    line.style.transform = 'rotate(90deg)';
-    line.style.top = 'calc(12.5% - 3px)';
-    line.style.left = 'calc(50% + (100% + 2px) *' + (index - 3) + ')';
+    drawLine('275%', 'calc(12.5% - 3px)', 'calc(50% + (100% + 2px) *' + (index - 3) + ')', 0, 90);
   }
   if (index == 6) {
-    line.style.top = '30%';
-    line.style.left = '30%';
-    line.style.width = '350%';
-    line.style.transform = 'translateY(-5px) rotate(45deg)';
+    drawLine('350%', '30%', '30%', -5, 45);
   }
   if (index == 7) {
-    line.style.top = '270%';
-    line.style.left = '30%';
-    line.style.width = '350%';
-    line.style.transform = 'rotate(-45deg)';
+    drawLine('350%', '270%', '30%', 0, -45);
   }
 }
 
-/* function checkForWin() {
-  if (hasFullRow()) {
-    let winner = hasFullRow();
-    showWinner(winner);
-  }
-} */
-
-/* function hasFullRow() {
-  let winner;
-  if (selectedFields[0] == selectedFields[1] && selectedFields[1] == selectedFields[2] && selectedFields[0]) {
-    winner = selectedFields[0];
-  }
-  if (selectedFields[3] == selectedFields[4] && selectedFields[4] == selectedFields[5] && selectedFields[3]) {
-    winner = selectedFields[3];
-  }
-  if (selectedFields[6] == selectedFields[7] && selectedFields[7] == selectedFields[8] && selectedFields[6]) {
-    winner = selectedFields[6];
-  }
-  if (selectedFields[0] == selectedFields[3] && selectedFields[3] == selectedFields[6] && selectedFields[0]) {
-    winner = selectedFields[0];
-  }
-  if (selectedFields[1] == selectedFields[4] && selectedFields[4] == selectedFields[7] && selectedFields[1]) {
-    winner = selectedFields[1];
-  }
-  if (selectedFields[2] == selectedFields[5] && selectedFields[5] == selectedFields[8] && selectedFields[2]) {
-    winner = selectedFields[2];
-  }
-  if (selectedFields[0] == selectedFields[4] && selectedFields[4] == selectedFields[8] && selectedFields[0]) {
-    winner = selectedFields[0];
-  }
-  if (selectedFields[2] == selectedFields[4] && selectedFields[4] == selectedFields[6] && selectedFields[2]) {
-    winner = selectedFields[2];
-  }
-
-  if (winner) {
-    return winner;
-  }
-} */
+function drawLine(width, top, left, translate, rotate) {
+  let line = document.getElementById('winner-line');
+  line.style.width = width;
+  line.style.top = top;
+  line.style.left = left;
+  line.style.transform = 'translateY(' + translate + '%) rotate(' + rotate + 'deg)';
+  line.classList.remove('winner-line-0');
+}
