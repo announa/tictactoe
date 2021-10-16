@@ -250,8 +250,8 @@ button:hover {
 
 @media (max-width: 500px) {
   table {
-    width: 75vw;
-    height: 75vw;
+    width: 80vw;
+    height: 80vw;
   }
 
   .board {
