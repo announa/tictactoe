@@ -74,12 +74,12 @@ function checkForWin() {
  * @return {number} - The index of the winning combination in the variable winningCombination.
  */
 function indexOfFullRow() {
-  return winningCombinations.findIndex((combination) => playerHasCombination(combination));
+  return winningCombinations.findIndex(playerHasCombination);
 }
 
 /**
  * Checks if selected fields of current player contain all numbers of the winning combination that is beeing checked.
- * @param {array} combination - The winning combination that is beeing checked.
+ * @param {array} combination - The combination of the variable winningCombinations that is beeing checked.
  * @return {boolean}
  * */
 function playerHasCombination(combination) {
