@@ -17,7 +17,7 @@ let winningCombinations = [
 
 /**
  * Onclick-event. Executed when player selects a field.
- * @param {number} - The field number.
+ * @param {number} id - The field number.
  */
 function selectField(id) {
   if (!selectedFields['occupiedBy'][id] && !checkIfWinner['gameOver']) {
@@ -46,7 +46,7 @@ function setVariables(id) {
 
 /**
  * Renders the current players field selection.
- * @param {number} - The field number.
+ * @param {number} id - The field number.
  */
 function renderFieldSelection(id) {
   if (currentPlayer == 'Player 1') {
@@ -71,15 +71,15 @@ function checkForWin() {
 
 /**
  * Checks if current player has full row ( = winningCombination).
- * @return {number} - The index of the winning combination in the variable winningCombination
+ * @return {number} - The index of the winning combination in the variable winningCombination.
  */
 function indexOfFullRow() {
   return winningCombinations.findIndex((combination) => playerHasCombination(combination));
 }
 
 /**
- * Checks if selected fields of current player contain all numbers of the winning combination that is beeing checked
- * @param {array} - The winning combination that is beeing checked.
+ * Checks if selected fields of current player contain all numbers of the winning combination that is beeing checked.
+ * @param {array} combination - The winning combination that is beeing checked.
  * @return {boolean}
  * */
 function playerHasCombination(combination) {
@@ -100,8 +100,8 @@ function checkIfGameOver() {
 }
 
 /**
- * shows game over-modal
- * @param {string} - The winning-status ('win' or 'nowin')
+ * Shows game over-modal.
+ * @param {string} status - The winning-status ('win' or 'nowin').
  */
 function gameOver(status) {
   document.getElementById('game-over').classList.remove('minimize');
@@ -113,7 +113,7 @@ function gameOver(status) {
 }
 
 /**
- * Changes the current player and shows the current player on the boards player-panel
+ * Changes the current player and shows the current player on the boards player-panel.
  */
 function changeCurrentPlayer() {
   if (currentPlayer == 'Player 1') {
@@ -155,7 +155,7 @@ function resetBoard() {
 
 /**
  * Renders the line drawn when a player wins.
- * @param {number} - The index of the winning combination in varable winningCombinations
+ * @param {number} index - The index of the winning combination in varable winningCombinations.
  */
 function renderWinnerLine(index) {
   if (index <= 2) {
@@ -172,6 +172,14 @@ function renderWinnerLine(index) {
   }
 }
 
+/**
+ * Draws the winning-line with the parameters which it gets from renderWinnerLine(index).
+ * @param {string} width - Line-width
+ * @param {string} top - Top-distance to parent element
+ * @param {string} left - Top-distance to parent element
+ * @param {number} translate - Percentage for Y-translation
+ * @param {number} rotate - Degree of rotation
+ */
 function drawLine(width, top, left, translate, rotate) {
   let line = document.getElementById('winner-line');
   line.style.width = width;
