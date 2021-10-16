@@ -165,7 +165,7 @@ function renderWinnerLine(index) {
     drawLine('275%', 'calc(12.5% - 3px)', 'calc(50% + (100% + 2px) *' + (index - 3) + ')', 0, 90);
   }
   if (index == 6) {
-    drawLine('350%', '30%', '30%', -5, 45);
+    drawLine('350%', 'calc(30% - 3px)', '30%', -5, 45);
   }
   if (index == 7) {
     drawLine('350%', '270%', '30%', 0, -45);
